@@ -106,6 +106,28 @@ nav ul li a:hover {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
+.show_password {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.show_password input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #2563eb;
+    border-radius: 4px;
+}
+
+.show_password label {
+    cursor: pointer;
+    user-select: none;
+}
+
 .sign_in_button button {
     width: 100%;
     padding: 12px;
