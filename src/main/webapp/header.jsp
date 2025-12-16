@@ -1,7 +1,7 @@
 
 <header>
     <div class="logo-title">
-         <a href="index.jsp" class="logo-link">
+         <a href="index.jsp?link=home" class="logo-link">
                     <img src="images/logo.png" alt="SIMS Logo">
                     <h1>Smart Inventory Management System</h1>
                 </a>
