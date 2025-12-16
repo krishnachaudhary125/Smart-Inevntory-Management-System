@@ -145,6 +145,24 @@ nav ul li a:hover {
     background-color: #1d4ed8;
 }
 
+.forgot_password {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.forgot_password a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.forgot_password a:hover {
+    text-decoration: underline;
+    color: #0f766e;
+}
+
 /* FOOTER */
 footer {
     background-color: #0f172a;
