@@ -1,4 +1,4 @@
-<jsp:include page="header.jsp" />
+
 <div class="sign_in_container">
     <form action="#" method="POST">
         <h1 class>Sign In</h1>
@@ -33,4 +33,3 @@
         }
     }
 </script>
-<jsp:include page="footer.jsp" />
