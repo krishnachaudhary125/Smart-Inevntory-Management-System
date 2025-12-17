@@ -59,6 +59,53 @@ nav ul li a:hover {
     background-color: rgba(255, 255, 255, 0.25);
 }
 
+/* HOME */
+.home_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.home {
+    background-color: #ffffff;
+    max-width: 800px;
+    width: 100%;
+    padding: 50px 30px;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.home h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #2563eb;
+}
+
+.home p {
+    font-size: 16px;
+    color: #334155;
+    margin-bottom: 25px;
+}
+
+.home .btn {
+    padding: 12px 25px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.home .btn:hover {
+    background-color: #1d4ed8;
+}
+
+
 /* SIGN IN */
 .sign_in_container {
     display: flex;
