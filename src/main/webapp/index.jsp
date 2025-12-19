@@ -23,6 +23,16 @@
             %>
             <jsp:include page="contact.jsp" />
             <%
+        } else if(link.equals("dashboard")){
+        //Checking if the user have signed in or not
+            if (session.getAttribute("userId") != null) {
+            %>
+              <jsp:include page="dashboard.jsp" />
+            <%
+            } else {
+               response.sendRedirect("index.jsp?link=sign_in");
+               return;
+            }
         } else if(link.equals("sign_in")) {
             %>
             <jsp:include page="sign_in.jsp" />

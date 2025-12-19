@@ -6,7 +6,9 @@
                     <h1>Smart Inventory Management System</h1>
                 </a>
         </div>
-
+        <%
+            boolean loggedIn = session.getAttribute("userId") != null;
+        %>
         <nav>
             <ul>
                 <li>
@@ -21,9 +23,12 @@
                     <a href="index.jsp?link=contact">Contact</a>
                 </li>
 
-                <li>
-                    <a href="index.jsp?link=sign_in">Sign In</a>
-                </li>
+                 <% if (loggedIn) { %>
+                         <li><a href="index.jsp?link=dashboard">Dashboard</a></li>
+                         <li><a href="logout">Logout</a></li>
+                     <% } else { %>
+                         <li><a href="index.jsp?link=sign_in">Sign In</a></li>
+                     <% } %>
             </ul>
         </nav>
 </header>
