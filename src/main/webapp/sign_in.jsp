@@ -2,6 +2,16 @@
 <div class="sign_in_container">
     <form action="sign_in" method="POST">
         <h1 class>Sign In</h1>
+        <%
+                String error = (String) request.getAttribute("error");
+                if (error != null) {
+            %>
+                <div class="login-error">
+                    <%= error %>
+                </div>
+            <%
+                }
+            %>
         <div>
             <div class="sign_in_field">
                 <input type="text" name="uname" id="uname" value="" placeholder="Enter email or username">

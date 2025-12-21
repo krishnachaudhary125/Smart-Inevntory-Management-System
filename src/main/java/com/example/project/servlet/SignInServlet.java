@@ -27,6 +27,10 @@ public class SignInServlet extends HttpServlet {
             session.setAttribute("role", user.getRole());
 
             resp.sendRedirect("index.jsp?link=dashboard");
+        } else {
+            req.setAttribute("error", "Invalid username or password");
+            req.getRequestDispatcher("index.jsp?link=sign_in")
+                    .forward(req, resp);
         }
     }
 }

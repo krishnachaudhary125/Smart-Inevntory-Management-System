@@ -115,6 +115,15 @@ nav ul li a:hover {
     padding: 20px;
 }
 
+.login-error {
+    margin: 10px 0 15px 0;
+    padding: 8px;
+    background-color: #ffe6e6;
+    color: #c0392b;
+    text-align: center;
+    font-size: 14px;
+}
+
 .sign_in_container form {
     background-color: #ffffff;
     width: 100%;
