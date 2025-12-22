@@ -3,7 +3,7 @@
 
 <div class="contact-container">
 
-    <h2>Contact Us</h2>
+    <h1>Contact Us</h1>
     <p>
         If you have any questions, feedback, or issues regarding the
         Smart Inventory Management System, please contact us using the form below.
