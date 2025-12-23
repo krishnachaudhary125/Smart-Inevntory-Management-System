@@ -6,28 +6,30 @@
 %>
 
 <div class="dashboard-container">
-<div class="dashboard-sidebar">
-<jsp:include page = "sidebar.jsp" />
-</div>
 
-<div class="dashboard-body">
-<%
-    String menu = request.getParameter("menu");
-    if(menu == null) {
-        menu = "default";
-    }
-%>
+    <aside class="dashboard-sidebar">
+        <jsp:include page="sidebar.jsp" />
+    </aside>
 
-<div class="dashboard-content">
-    <% if("statistics".equals(menu)) { %>
-        <jsp:include page="statistics.jsp" />
-    <% } else if("products".equals(menu)) { %>
-        <jsp:include page="admin.jsp" />
-    <% } else if("users".equals(menu)) { %>
-        <jsp:include page="staff.jsp" />
-    <% } else { %>
-        <p>Select a menu from the sidebar.</p>
-    <% } %>
-</div>
-</div>
+    <main class="dashboard-main">
+
+        <%
+            String menu = request.getParameter("menu");
+            if (menu == null) {
+                menu = "default";
+            }
+        %>
+
+        <section class="dashboard-content">
+            <% if ("statistics".equals(menu)) { %>
+                <jsp:include page="statistics.jsp" />
+            <% } else if ("products".equals(menu)) { %>
+                <jsp:include page="admin.jsp" />
+            <% } else if ("users".equals(menu)) { %>
+                <jsp:include page="staff.jsp" />
+            <% }%>
+        </section>
+
+    </main>
+
 </div>
