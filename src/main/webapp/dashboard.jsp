@@ -23,9 +23,9 @@
         <section class="dashboard-content">
             <% if ("statistics".equals(menu)) { %>
                 <jsp:include page="statistics.jsp" />
-            <% } else if ("products".equals(menu)) { %>
+            <% } else if ("admin".equals(menu)) { %>
                 <jsp:include page="admin.jsp" />
-            <% } else if ("users".equals(menu)) { %>
+            <% } else if ("staff".equals(menu)) { %>
                 <jsp:include page="staff.jsp" />
             <% }%>
         </section>
