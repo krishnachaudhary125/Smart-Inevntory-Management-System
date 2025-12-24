@@ -386,14 +386,20 @@ nav ul li a:hover {
     color: #2563eb;
     text-decoration: none;
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 600;
     border-radius: 6px;
     transition: background-color 0.3s ease
 }
 
-.sidebar-nav li a:hover {
+.sidebar-nav li a {
+    transition: background 0.3s ease;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a.active {
     background: linear-gradient(90deg, #2563eb, #0f766e);
     color: #ffffff;
+    font-weight: 600;
 }
 
 /* FOOTER */
