@@ -7,7 +7,7 @@
                             boolean loggedIn = session.getAttribute("userId") != null;
                             if (loggedIn) {
                         %>
-                            <a href="index.jsp?link=dashboard" class="btn">Go to Dashboard</a>
+                            <a href="index.jsp?link=dashboard&menu=statistics" class="btn">Go to Dashboard</a>
                         <%
                             } else {
                         %>

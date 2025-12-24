@@ -24,7 +24,7 @@
                 </li>
 
                  <% if (loggedIn) { %>
-                         <li><a href="index.jsp?link=dashboard">Dashboard</a></li>
+                         <li><a href="index.jsp?link=dashboard&menu=statistics">Dashboard</a></li>
                          <li><a href="sign_out">Sign Out</a></li>
                      <% } else { %>
                          <li><a href="index.jsp?link=sign_in">Sign In</a></li>
