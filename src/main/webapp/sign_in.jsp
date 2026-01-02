@@ -1,6 +1,6 @@
 
 <div class="sign_in_container">
-    <form action="sign_in" method="POST">
+    <form action="sign_in" method="POST" onsubmit="return validateForm()">
         <h1 class>Sign In</h1>
         <%
                 String error = (String) request.getAttribute("error");
@@ -15,9 +15,11 @@
         <div>
             <div class="sign_in_field">
                 <input type="text" name="uname" id="uname" value="" placeholder="Enter email or username">
+                <small id="unameError" class="inputError"></small>
             </div>
             <div class="sign_in_field">
                 <input type="password" name="psw" id="psw" value="" placeholder="Enter password">
+                <small id="pswError" class="inputError"></small>
             </div>
             <div class="show_password">
                 <input type="checkbox" id="showPassword" onclick="togglePassword()">
@@ -41,5 +43,25 @@
         } else {
             pw.type = "password";
         }
+    }
+
+    function validateForm() {
+        let uname = document.getElementById("uname").value.trim();
+        let psw = document.getElementById("psw").value.trim();
+        let valid = true;
+
+        document.getElementById("unameError").innerText = "";
+        document.getElementById("pswError").innerText = "";
+
+        if (uname === "") {
+            document.getElementById("unameError").innerText = "Username or email is required.";
+            valid = false;
+        }
+
+        if (psw === "") {
+            document.getElementById("pswError").innerText = "Password is required.";
+            valid = false;
+        }
+        return valid;
     }
 </script>

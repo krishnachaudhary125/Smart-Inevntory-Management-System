@@ -123,6 +123,13 @@ nav ul li a:hover {
     text-align: center;
     font-size: 14px;
 }
+.inputError{
+    margin: 10px 0 15px 0;
+    padding: 8px;
+    color: #c0392b;
+    text-align: center;
+    font-size: 14px;
+}
 
 .sign_in_container form {
     background-color: #ffffff;
