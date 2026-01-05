@@ -21,13 +21,25 @@
         %>
 
         <section class="dashboard-content">
-            <% if ("statistics".equals(menu)) { %>
-                <jsp:include page="statistics.jsp" />
-            <% } else if ("admin".equals(menu)) { %>
-                <jsp:include page="admin.jsp" />
-            <% } else if ("staff".equals(menu)) { %>
-                <jsp:include page="staff.jsp" />
-            <% }%>
+            <%
+                    if (menu == null || menu.equals("statistics")) {
+                        %>
+                        <jsp:include page="statistics.jsp" />
+                        <%
+                    } else if (menu.equals("admin")) {
+                        %>
+                        <jsp:include page="admin.jsp" />
+                        <%
+                    } else if (menu.equals("staff")) {
+                        %>
+                        <jsp:include page="staff.jsp" />
+                        <%
+                    } else if (menu.equals("users")) {
+                        %>
+                        <jsp:include page="users.jsp" />
+                        <%
+                    }
+                %>
         </section>
 
     </main>
