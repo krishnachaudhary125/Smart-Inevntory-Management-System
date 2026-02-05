@@ -1,15 +1,7 @@
 <div class="user-container">
     <nav class="user-header">
         <ul>
-        <%
-                    String role = (String) session.getAttribute("role");
-                    if ("super-admin".equals(role) || "admin".equals(role)) {
-                %>
-            <li><button id="add-staff-btn">Add Staff</button></li>
-            <%
-                        }
-                    %>
-            <li><button>Add Admin</button></li>
+            <li><button id="add-user-btn">Add User</button></li>
             <li><button>Role Filter</button></li>
             <li>
         <div class="search">
@@ -20,14 +12,34 @@
         </ul>
     </nav>
 
-    <div class="add-staff" id="add-staff">
-        <div class="add-staff-popup">
-        <h2>Add Staff</h2>
-        <span class="close" id="closeModal">&times;</span>
-        <form>
-        </form>
-        </div>
+    <div id="add-user-modal" class="add-user-modal">
+    <div class="add-user-container">
+    <span class="close">&times;</span>
+    <h2>Add User</h2>
+    <form action="" method="post">
+    <div class="add_user_field">
+        <input type="text" name="uname" id="uname" value="" placeholder="Enter username">
     </div>
+    <div class="add_user_field">
+        <input type="text" name="email" id="email" value="" placeholder="Enter email">
+    </div>
+    <div class="add_user_field">
+        <input type="password" name="psw" id="psw" value="" placeholder="Enter password">
+    </div>
+    <div class="show_password">
+        <input type="checkbox" id="showPassword" onclick="togglePassword()">
+        <label for="showPassword">Show Password</label>
+    </div>
+
+    <div class="role-options">
+    </div>
+    <div class="add_user_button">
+        <button type="submit" name="add_user_button" id="add_user_button">Sign In</button>
+    </div>
+    </form>
+    </div>
+    </div>
+    
     <div class="user-table">
         <table>
             <thead>
@@ -65,3 +77,26 @@
     </div>
 
 </div>
+
+<script>
+    function togglePassword() {
+        var pw = document.getElementById("psw");
+        if (pw.type === "password") {
+            pw.type = "text";
+        } else {
+            pw.type = "password";
+        }
+    }
+    const modal = document.getElementById("add-user-modal");
+    const closeBtn = document.querySelector(".close");
+
+    document.getElementById("add-user-btn").onclick = () => {
+        modal.style.display = "flex";
+    };
+
+    closeBtn.onclick = () => modal.style.display = "none";
+
+    window.onclick = (e) => {
+        if (e.target === modal) modal.style.display = "none";
+    };
+</script>
