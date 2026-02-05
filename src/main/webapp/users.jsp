@@ -30,9 +30,28 @@
         <input type="checkbox" id="showPassword" onclick="togglePassword()">
         <label for="showPassword">Show Password</label>
     </div>
-
+    <%
+    String role =(String) session.getAttribute("role");
+    if("super-admin".equals(role)){
+    %>
     <div class="role-options">
+        <label class="role-item">
+                <input type="radio" name="role" value="staff">
+                <span>Staff</span>
+            </label>
+
+            <label class="role-item">
+                <input type="radio" name="role" value="admin">
+                <span>Admin</span>
+            </label>
     </div>
+    <%
+    } else {
+    %>
+        <input type="hidden" name="role" value="staff">
+    <%
+    }
+    %>
     <div class="add_user_button">
         <button type="submit" name="add_user_button" id="add_user_button">Sign In</button>
     </div>

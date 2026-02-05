@@ -584,6 +584,123 @@ nav ul li a:hover {
     opacity: 0.85;
 }
 
+.add-user-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-user-container {
+    background: #ffffff;
+    width: 360px;
+    padding: 25px 22px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: popup 0.3s ease;
+}
+
+@keyframes popup {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.add-user-container h2 {
+    margin-bottom: 18px;
+    text-align: center;
+    color: #1f2937;
+}
+
+.add_user_field input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+}
+
+.add_user_field input:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.show_password {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.role-options {
+    display: flex;
+    gap: 16px;
+    margin: 12px 0 18px;
+    justify-content: center;
+}
+
+.role-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    background: #f9fafb;
+    transition: all 0.2s ease;
+}
+
+.role-item input {
+    margin: 0;
+}
+
+.role-item:hover {
+    border-color: #2563eb;
+    background: #eef2ff;
+}
+
+.add_user_button button {
+    width: 100%;
+    padding: 10px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add_user_button button:hover {
+    background: #1e40af;
+}
+
 /* FOOTER */
 footer {
     background: linear-gradient(90deg, #2563eb, #0f766e);
