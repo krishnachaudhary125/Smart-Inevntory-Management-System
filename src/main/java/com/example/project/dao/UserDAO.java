@@ -2,53 +2,42 @@ package com.example.project.dao;
 
 import com.example.project.model.User;
 import com.example.project.util.DBConnection;
+import com.example.project.util.PasswordHashing;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.example.project.util.PasswordHashing;
-
 public class UserDAO {
-    public static User validateUser(String uname, String psw){
+
+    public static User validateUser(String uname, String psw) {
 
         User user = null;
         String hashedPassword = PasswordHashing.sha1(psw);
 
-        try(Connection conn = DBConnection.getConnection()){
+        String sql = "SELECT user_id, username, role FROM users WHERE (username=? OR email=?) AND password=?";
 
-            String sqlAdmin = "SELECT admin_id, username, role FROM admin WHERE (username=? OR email=?) AND password=?";
-            PreparedStatement psAdmin = conn.prepareStatement(sqlAdmin);
-            psAdmin.setString(1, uname);
-            psAdmin.setString(2, uname);
-            psAdmin.setString(3, hashedPassword);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ResultSet rs = psAdmin.executeQuery();
+            ps.setString(1, uname);
+            ps.setString(2, uname);
+            ps.setString(3, hashedPassword);
+
+            ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
-                return new User(
-                        rs.getInt("admin_id"),
-                        rs.getString("username"),
-                        rs.getString("role")
-                );
-            }
-
-            String sqlStaff = "SELECT staff_id, username, role FROM staff WHERE (username=? OR email=?) AND password=?";
-            PreparedStatement psStaff = conn.prepareStatement(sqlStaff);
-            psStaff.setString(1, uname);
-            psStaff.setString(2, uname);
-            psStaff.setString(3, hashedPassword);
-
-            rs = psStaff.executeQuery();
-            if(rs.next()){
                 user = new User(
-                        rs.getInt("staff_id"),
+                        rs.getInt("user_id"),
                         rs.getString("username"),
                         rs.getString("role")
                 );
             }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
         return user;
     }
 }
