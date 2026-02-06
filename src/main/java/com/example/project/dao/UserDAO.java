@@ -7,6 +7,8 @@ import com.example.project.util.PasswordHashing;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
@@ -15,7 +17,7 @@ public class UserDAO {
         User user = null;
         String hashedPassword = PasswordHashing.sha1(psw);
 
-        String sql = "SELECT user_id, username, role FROM users WHERE (username=? OR email=?) AND password=?";
+        String sql = "SELECT user_id, username, email, role FROM users WHERE (username=? OR email=?) AND password=?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -30,6 +32,7 @@ public class UserDAO {
                 user = new User(
                         rs.getInt("user_id"),
                         rs.getString("username"),
+                        rs.getString("email"),
                         rs.getString("role")
                 );
             }
@@ -39,5 +42,31 @@ public class UserDAO {
         }
 
         return user;
+    }
+
+    public static List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+
+        String sql = "SELECT user_id, username, email, role FROM users";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                User u = new User(
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("role")
+                );
+                users.add(u);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return users;
     }
 }

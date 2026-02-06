@@ -22,8 +22,8 @@ public class SignInServlet extends HttpServlet {
         //Comparing input data with database data
         if(user != null){
             HttpSession session = req.getSession();
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("uname", user.getUname());
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("uname", user.getUsername());
             session.setAttribute("role", user.getRole());
 
             resp.sendRedirect("index.jsp?link=dashboard&menu=statistics");

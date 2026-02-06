@@ -18,6 +18,11 @@
             if (menu == null) {
                 menu = "default";
             }
+            if ("users".equals(menu)) {
+                com.example.project.dao.UserDAO userDAO = new com.example.project.dao.UserDAO();
+                java.util.List<com.example.project.model.User> users = userDAO.getAllUsers();
+                request.setAttribute("users", users);
+            }
         %>
 
         <section class="dashboard-content">

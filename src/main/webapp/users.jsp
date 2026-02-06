@@ -1,3 +1,6 @@
+<%@ page import="com.example.project.model.User" %>
+<%@ page import="java.util.List" %>
+
 <div class="user-container">
     <nav class="user-header">
         <ul>
@@ -71,27 +74,39 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Krishna Chaudhary</td>
-                    <td>krishna@example.com</td>
-                    <td>Admin</td>
-                    <td>
-                        <button class="edit">Edit</button>
-                        <button class="delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Ram Sharma</td>
-                    <td>ram@example.com</td>
-                    <td>Staff</td>
-                    <td>
-                        <button class="edit">Edit</button>
-                        <button class="delete">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
+                           <%
+                           Object obj = request.getAttribute("users");
+                           List<User> users = null;
+
+                           if (obj instanceof List) {
+                               users = (List<User>) obj;
+                           }
+
+                           if (users != null && !users.isEmpty()) {
+                               for (User u : users) {
+                           %>
+                           <tr>
+                               <td><%= u.getUserId() %></td>
+                               <td><%= u.getUsername() %></td>
+                               <td><%= u.getEmail() %></td>
+                               <td><%= u.getRole() %></td>
+                               <td>
+                                   <button class="edit" data-id="<%= u.getUserId() %>">Edit</button>
+                                   <button class="delete" data-id="<%= u.getUserId() %>">Delete</button>
+                               </td>
+                           </tr>
+                           <%
+                               }
+                           } else {
+                           %>
+                           <tr>
+                               <td colspan="5" style="text-align:center; padding:15px;">No users found</td>
+                           </tr>
+                           <%
+                           }
+                           %>
+
+                        </tbody>
         </table>
     </div>
 
