@@ -19,7 +19,7 @@
     <div class="add-user-container">
     <span class="close">&times;</span>
     <h2>Add User</h2>
-    <form action="" method="post">
+    <form action="addUser" method="post">
     <div class="add_user_field">
         <input type="text" name="uname" id="uname" value="" placeholder="Enter username">
     </div>
@@ -56,7 +56,7 @@
     }
     %>
     <div class="add_user_button">
-        <button type="submit" name="add_user_button" id="add_user_button">Sign In</button>
+        <button type="submit" name="add_user_button" id="add_user_button">Add User</button>
     </div>
     </form>
     </div>
