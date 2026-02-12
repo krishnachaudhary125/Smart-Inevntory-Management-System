@@ -78,7 +78,7 @@ nav ul li a:hover {
     transition: background-color 0.3s ease;
 }
 
-.dropbtn:hover{
+.dropbtn:hover {
     background-color: rgba(255, 255, 255, 0.25);
 }
 
@@ -97,7 +97,7 @@ nav ul li a:hover {
     right: 0;
     background-color: #fff;
     min-width: 180px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 100;
     border-radius: 5px;
     overflow: hidden;
@@ -184,7 +184,8 @@ nav ul li a:hover {
     text-align: center;
     font-size: 14px;
 }
-.inputError{
+
+.inputError {
     margin: 10px 0 15px 0;
     padding: 8px;
     color: #c0392b;
@@ -416,10 +417,10 @@ nav ul li a:hover {
 
 .dashboard-sidebar {
     width: 150px;
-        background: #f1f5f9;
-        box-shadow: 12px 0 20px -8px rgba(0, 0, 0, 0.25);
-        display: flex;
-        justify-content: center;
+    background: #f1f5f9;
+    box-shadow: 12px 0 20px -8px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
 }
 
 .dashboard-main {
@@ -431,13 +432,13 @@ nav ul li a:hover {
 /* SIDEBAR */
 .sidebar-nav {
     width: 100%;
-    margin-top:20px;
+    margin-top: 20px;
 }
 
 .sidebar-nav ul {
 
     display: flex;
-        flex-direction: column;
+    flex-direction: column;
 }
 
 .sidebar-nav li a {
@@ -465,13 +466,14 @@ nav ul li a:hover {
 /* USERS */
 .user-container {
     background-color: #ffffff;
-    padding:20px;
+    padding: 20px;
     border-radius: 6px;
     min-height: 300px;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
-    max-width:900px;
+    max-width: 900px;
     margin: 0 auto;
 }
+
 .user-header {
     background-color: #f8f9fa;
     padding: 12px 16px;
@@ -560,7 +562,7 @@ nav ul li a:hover {
 .user-table tr:hover {
     background-color: #f9f9f9;
 }
- 
+
 .edit {
     background-color: #007bff;
     color: #fff;
@@ -600,7 +602,7 @@ nav ul li a:hover {
     padding: 25px 22px;
     border-radius: 10px;
     position: relative;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     animation: popup 0.3s ease;
 }
 
@@ -609,6 +611,7 @@ nav ul li a:hover {
         transform: scale(0.9);
         opacity: 0;
     }
+
     to {
         transform: scale(1);
         opacity: 1;
@@ -699,6 +702,17 @@ nav ul li a:hover {
 
 .add_user_button button:hover {
     background: #1e40af;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    display: block;
+    margin-top: 4px;
+}
+
+.input-error {
+    border: 1px solid red;
 }
 
 /* FOOTER */
