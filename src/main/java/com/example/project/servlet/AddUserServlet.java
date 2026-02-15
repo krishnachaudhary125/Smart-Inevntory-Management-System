@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -25,56 +26,64 @@ public class AddUserServlet extends HttpServlet {
         String cpsw = req.getParameter("cpsw");
         String role = req.getParameter("role");
 
+        HttpSession session = req.getSession();
+        UserDAO dao = new UserDAO();
+
+        session.removeAttribute("generalError");
+        session.removeAttribute("unameError");
+        session.removeAttribute("emailError");
+        session.removeAttribute("pswError");
+        session.removeAttribute("cpswError");
+
         boolean hasError = false;
 
-        if(username==null || username.trim().isEmpty() ||
+        if(username == null || username.trim().isEmpty() ||
                 email == null || email.trim().isEmpty() ||
-                password==null || password.trim().isEmpty() ||
-                cpsw==null || cpsw.isEmpty()){
-
-            req.setAttribute("generalError", "All fields are required.");
+                password == null || password.trim().isEmpty() ||
+                cpsw == null || cpsw.trim().isEmpty()) {
+            session.setAttribute("generalError", "All fields are required");
             hasError = true;
         }
 
-        if(!hasError){
-            if(username.trim().length() < 3){
-                req.setAttribute("unameError", "Username must be at least 3 character long.");
-                hasError = true;
-            }
-
-            String emailPattern = "/^[^ ]+@[^ ]+\\.[a-z]{2,3}$/";
-            if(!email.matches(emailPattern)){
-                req.setAttribute("emailError", "Invalid email format.");
-            }
-
-            String passwordPattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&^#])[A-Za-z\\d@$!%*?&^#]{8,}$/";
-            if(!password.matches(passwordPattern)){
-                req.setAttribute("paswError", "Password need to be 8 character long and must contain capital and small letter, number and symbol.");
-                hasError = true;
-            }
-
-            if(!password.equals(cpsw)){
-                req.setAttribute("cpswError","Password do not match.");
-            }
+        if(username != null && username.trim().length() < 3){
+            session.setAttribute("unameError", "Username must be at least 3 characters");
+            hasError = true;
         }
 
-        UserDAO dao = new UserDAO();
+        String emailPattern = "^[^ ]+@[^ ]+\\.[a-z]{2,3}$";
+        if(email != null && !email.matches(emailPattern)){
+            session.setAttribute("emailError", "Invalid email format");
+            hasError = true;
+        }
+
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&^#])[A-Za-z\\d@$!%*?&^#]{8,}$";
+        if(password != null && !password.matches(passwordPattern)){
+            session.setAttribute("pswError", "Password must be 8+ chars, uppercase, lowercase, number & symbol");
+            hasError = true;
+        }
+
+        if(password != null && cpsw != null && !password.equals(cpsw)){
+            session.setAttribute("cpswError", "Passwords do not match");
+            hasError = true;
+        }
+
+        // --- Check existing email/username ---
         if(!hasError && dao.emailExists(email)){
-            req.setAttribute("generalError", "Email already exists.");
+            session.setAttribute("generalError", "Email already exists");
             hasError = true;
         }
+
         if(!hasError && dao.unameExists(username)){
-            req.setAttribute("generalError", "Username already exists.");
+            session.setAttribute("generalError", "Username already exists");
             hasError = true;
         }
+
         if(hasError){
-            req.getRequestDispatcher("/Smart-Inventory-Management-System/index.jsp?link=dashboard&menu=users")
-                    .forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/index.jsp?link=dashboard&menu=users");
             return;
         }
 
         String hashedPassword = sha1(password);
-
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
@@ -83,10 +92,11 @@ public class AddUserServlet extends HttpServlet {
 
         boolean success = dao.insertUser(user);
 
-        if (success) {
-            resp.sendRedirect("/Smart-Inventory-Management-System/index.jsp?link=dashboard&menu=users");
+        if(success){
+            resp.sendRedirect(req.getContextPath() + "/index.jsp?link=dashboard&menu=users&success=added");
         } else {
-            resp.sendRedirect("dashboard.jsp?menu=users&error=failed");
+            session.setAttribute("generalError", "Failed to add user");
+            resp.sendRedirect(req.getContextPath() + "/index.jsp?link=dashboard&menu=users&error=failed");
         }
     }
 }
