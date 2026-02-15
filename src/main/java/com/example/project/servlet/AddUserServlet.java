@@ -22,7 +22,56 @@ public class AddUserServlet extends HttpServlet {
         String username = req.getParameter("uname");
         String email = req.getParameter("email");
         String password = req.getParameter("psw");
+        String cpsw = req.getParameter("cpsw");
         String role = req.getParameter("role");
+
+        boolean hasError = false;
+
+        if(username==null || username.trim().isEmpty() ||
+                email == null || email.trim().isEmpty() ||
+                password==null || password.trim().isEmpty() ||
+                cpsw==null || cpsw.isEmpty()){
+
+            req.setAttribute("generalError", "All fields are required.");
+            hasError = true;
+        }
+
+        if(!hasError){
+            if(username.trim().length() < 3){
+                req.setAttribute("unameError", "Username must be at least 3 character long.");
+                hasError = true;
+            }
+
+            String emailPattern = "/^[^ ]+@[^ ]+\\.[a-z]{2,3}$/";
+            if(!email.matches(emailPattern)){
+                req.setAttribute("emailError", "Invalid email format.");
+            }
+
+            String passwordPattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&^#])[A-Za-z\\d@$!%*?&^#]{8,}$/";
+            if(!password.matches(passwordPattern)){
+                req.setAttribute("paswError", "Password need to be 8 character long and must contain capital and small letter, number and symbol.");
+                hasError = true;
+            }
+
+            if(!password.equals(cpsw)){
+                req.setAttribute("cpswError","Password do not match.");
+            }
+        }
+
+        UserDAO dao = new UserDAO();
+        if(!hasError && dao.emailExists(email)){
+            req.setAttribute("generalError", "Email already exists.");
+            hasError = true;
+        }
+        if(!hasError && dao.unameExists(username)){
+            req.setAttribute("generalError", "Username already exists.");
+            hasError = true;
+        }
+        if(hasError){
+            req.getRequestDispatcher("/Smart-Inventory-Management-System/index.jsp?link=dashboard&menu=users")
+                    .forward(req, resp);
+            return;
+        }
 
         String hashedPassword = sha1(password);
 
@@ -32,7 +81,6 @@ public class AddUserServlet extends HttpServlet {
         user.setPassword(hashedPassword);
         user.setRole(role);
 
-        UserDAO dao = new UserDAO();
         boolean success = dao.insertUser(user);
 
         if (success) {

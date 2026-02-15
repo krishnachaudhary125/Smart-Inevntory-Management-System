@@ -19,48 +19,71 @@
                 <div class="add-user-container">
                     <span class="close">&times;</span>
                     <h2>Add User</h2>
-                    <form action="addUser" method="post" onsubmit="return validateAddUserForm()">
-                        <div class="add_user_field">
-                            <input type="text" name="uname" id="uname" value="" placeholder="Enter username" required>
-                            <small class="error" id="unameError"></small>
+                    <% if(request.getAttribute("generalError")!=null){ %>
+                        <div class="general-error">
+                            <%= request.getAttribute("generalError") %>
                         </div>
-                        <div class="add_user_field">
-                            <input type="text" name="email" id="email" value="" placeholder="Enter email" required>
-                            <small class="error" id="emailError"></small>
-                        </div>
-                        <div class="add_user_field">
-                            <input type="password" name="psw" id="psw" value="" placeholder="Enter password" required>
-                            <small class="error" id="pswError"></small>
-                        </div>
-                        <div class="add_user_field">
-                            <input type="password" name="cpsw" id="cpsw" value="" placeholder="Confirm Password"
-                                required>
-                            <small class="error" id="cpswError"></small>
-                        </div>
-                        <div class="show_password">
-                            <input type="checkbox" id="showPassword" onclick="togglePassword()">
-                            <label for="showPassword">Show Password</label>
-                        </div>
-                        <% String role=(String) session.getAttribute("role"); if("super-admin".equals(role)){ %>
-                            <div class="role-options">
-                                <label class="role-item">
-                                    <input type="radio" name="role" value="staff">
-                                    <span>Staff</span>
-                                </label>
+                        <% } %>
 
-                                <label class="role-item">
-                                    <input type="radio" name="role" value="admin">
-                                    <span>Admin</span>
-                                </label>
-                            </div>
-                            <% } else { %>
-                                <input type="hidden" name="role" value="staff">
-                                <% } %>
-                                    <div class="add_user_button">
-                                        <button type="submit" name="add_user_button" id="add_user_button">Add
-                                            User</button>
+                            <form action="addUser" method="post" onsubmit="return validateAddUserForm()">
+                                <div class="add_user_field">
+                                    <input type="text" name="uname" id="uname" value="<%= request.getParameter(" uname")
+                                        !=null ? request.getParameter("uname") : "" %>" placeholder="Enter username"
+                                    required>
+                                    <small class="error" id="unameError">
+                                        <%= request.getAttribute("unameError") !=null ?
+                                            request.getAttribute("unameError") : "" %>
+                                    </small>
+                                </div>
+                                <div class="add_user_field">
+                                    <input type="text" name="email" id="email" value="<%= request.getParameter(" email")
+                                        !=null ? request.getParameter("email") : "" %>" placeholder="Enter email"
+                                    required>
+                                    <small class="error" id="emailError">
+                                        <%= request.getAttribute("emailError") !=null ?
+                                            request.getAttribute("emailError") : "" %>
+                                    </small>
+                                </div>
+                                <div class="add_user_field">
+                                    <input type="password" name="psw" id="psw" value="" placeholder="Enter password"
+                                        required>
+                                    <small class="error" id="pswError">
+                                        <%= request.getAttribute("pswError") !=null ? request.getAttribute("pswError")
+                                            : "" %>
+                                    </small>
+                                </div>
+                                <div class="add_user_field">
+                                    <input type="password" name="cpsw" id="cpsw" value="" placeholder="Confirm Password"
+                                        required>
+                                    <small class="error" id="cpswError">
+                                        <%= request.getAttribute("cpswError") !=null ? request.getAttribute("cpswError")
+                                            : "" %>
+                                    </small>
+                                </div>
+                                <div class="show_password">
+                                    <input type="checkbox" id="showPassword" onclick="togglePassword()">
+                                    <label for="showPassword">Show Password</label>
+                                </div>
+                                <% String role=(String) session.getAttribute("role"); if("super-admin".equals(role)){ %>
+                                    <div class="role-options">
+                                        <label class="role-item">
+                                            <input type="radio" name="role" value="staff">
+                                            <span>Staff</span>
+                                        </label>
+
+                                        <label class="role-item">
+                                            <input type="radio" name="role" value="admin">
+                                            <span>Admin</span>
+                                        </label>
                                     </div>
-                    </form>
+                                    <% } else { %>
+                                        <input type="hidden" name="role" value="staff">
+                                        <% } %>
+                                            <div class="add_user_button">
+                                                <button type="submit" name="add_user_button" id="add_user_button">Add
+                                                    User</button>
+                                            </div>
+                            </form>
                 </div>
             </div>
 
@@ -132,10 +155,21 @@
             }
             const modal = document.getElementById("add-user-modal");
             const closeBtn = document.querySelector(".close");
+            <%
+            if (request.getAttribute("generalError") != null ||
+                request.getAttribute("unameError") != null ||
+                request.getAttribute("emailError") != null ||
+                request.getAttribute("pswError") != null ||
+                request.getAttribute("cpswError") != null) {
+            %>
+                    modal.style.display = "flex";
+            <%
+            }
+            %>
 
-            document.getElementById("add-user-btn").onclick = () => {
-                modal.style.display = "flex";
-            };
+                document.getElementById("add-user-btn").onclick = () => {
+                    modal.style.display = "flex";
+                };
 
             closeBtn.onclick = () => modal.style.display = "none";
 
@@ -198,7 +232,7 @@
                     isValid = false;
                 }
                 else if (!passwordPattern.test(psw.value)) {
-                    pswError.innerHTML = "Password need to be 8 charecter long and must contain capital and small letter, number and symbol.";
+                    pswError.innerHTML = "Password need to be 8 character long and must contain capital and small letter, number and symbol.";
                     psw.classList.add("input-error");
                     isValid = false;
                 }

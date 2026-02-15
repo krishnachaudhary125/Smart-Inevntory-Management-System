@@ -704,6 +704,15 @@ nav ul li a:hover {
     background: #1e40af;
 }
 
+.general-error {
+    background: #ffe5e5;
+    color: #d8000c;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
 .error {
     color: red;
     font-size: 13px;

@@ -89,4 +89,35 @@ public class UserDAO {
         }
     }
 
+    public boolean emailExists(String email){
+        boolean exists = false;
+        String sql = "SELECT 1 FROM users WHERE email = ?";
+
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            exists = rs.next();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return exists;
+    }
+
+    public boolean unameExists(String username){
+        boolean exists = false;
+        String sql = "SELECT 1 FROM users WHERE username = ?";
+
+        try(Connection conn = DBConnection.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            exists = rs.next();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return exists;
+    }
 }
