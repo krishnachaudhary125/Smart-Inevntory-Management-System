@@ -31,6 +31,14 @@
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }else if ("category".equals(menu)) {
+                try (java.sql.Connection conn = com.example.project.util.DBConnection.getConnection()) {
+                    com.example.project.dao.CategoryDAO categoryDAO = new com.example.project.dao.CategoryDAO(conn);
+                    java.util.List<com.example.project.model.Category> category = categoryDAO.getAllCategory();
+                    request.setAttribute("category", category);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         %>
 
@@ -51,6 +59,14 @@
                     } else if(menu.equals("vendors")){
                         %>
                         <jsp:include page="vendors.jsp" />
+                        <%
+                    } else if(menu.equals("category")){
+                        %>
+                        <jsp:include page="category.jsp" />
+                        <%
+                    } else if(menu.equals("products")){
+                        %>
+                        <jsp:include page="products.jsp" />
                         <%
                     }
                 %>

@@ -466,7 +466,8 @@ nav ul li a:hover {
 /* USERS */
 .user-container,
 /* VENDORs */
-.vendor-container {
+.vendor-container,
+.category-container {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 6px;
@@ -483,10 +484,15 @@ nav ul li a:hover {
     max-width: 1200px;
 }
 
+.category-container {
+    max-width: 700px;
+}
+
 /* USERS */
 .user-header,
 /* VENDORS */
-.vendor-header {
+.vendor-header,
+.category-header {
     background-color: #f8f9fa;
     padding: 12px 16px;
     border-radius: 6px;
@@ -496,7 +502,8 @@ nav ul li a:hover {
 /* USERS */
 .user-header ul,
 /* VENDORS */
-.vendor-header ul {
+.vendor-header ul,
+.category-header ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -509,7 +516,8 @@ nav ul li a:hover {
 /* USERS */
 .user-header li,
 /* VENDORS */
-.vendor-header li {
+.vendor-header li,
+.category-header li {
     display: flex;
     align-items: center;
 }
@@ -517,14 +525,16 @@ nav ul li a:hover {
 /* USERS */
 .user-header li:last-child,
 /* VENDORS */
-.vendor-header li:last-child {
+.vendor-header li:last-child,
+.category-header li:last-child {
     margin-left: auto;
 }
 
 /* USERS */
 .user-header button,
 /* VENDORS */
-.vendor-header button {
+.vendor-header button,
+.category-header button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -537,14 +547,16 @@ nav ul li a:hover {
 /* USERS */
 .user-header button:hover,
 /* VENDORS */
-.vendor-header button:hover {
+.vendor-header button:hover,
+.category-header button:hover {
     background-color: #0056b3;
 }
 
 /* USERS */
 .user-header .search,
 /* VENDORS */
-.vendor-header .search {
+.vendor-header .search,
+.category-header .search {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -553,7 +565,8 @@ nav ul li a:hover {
 /* USERS */
 .user-header .search-uesr input,
 /* VENDORS */
-.vendor-header .search-vendor input {
+.vendor-header .search-vendor input,
+.category-header .search-category input {
     padding: 7px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -564,14 +577,16 @@ nav ul li a:hover {
 /* USERS */
 .user-header .search button,
 /* VENDORS */
-.vendor-header .search button {
+.vendor-header .search button,
+.category-header .search button {
     background-color: #28a745;
 }
 
 /* USERS */
 .user-header .search button:hover,
 /* VENDORS */
-.vendor-header .search button:hover {
+.vendor-header .search button:hover,
+.category-header .search button:hover {
     background-color: #1e7e34;
 }
 
@@ -632,7 +647,8 @@ nav ul li a:hover {
 }
 
 .add-user-modal,
-.add-vendor-modal {
+.add-vendor-modal,
+.add-category-modal {
     display: none;
     position: fixed;
     inset: 0;
@@ -643,7 +659,8 @@ nav ul li a:hover {
 }
 
 .add-user-container,
-.add-vendor-container {
+.add-vendor-container,
+.add-category-container {
     background: #ffffff;
     width: 360px;
     padding: 25px 22px;
@@ -679,14 +696,16 @@ nav ul li a:hover {
 }
 
 .add-user-container h2,
-.add-vendor-container h2 {
+.add-vendor-container h2,
+.add-category-container h2 {
     margin-bottom: 18px;
     text-align: center;
     color: #1f2937;
 }
 
 .add_user_field input,
-.add-vendor-field input {
+.add-vendor-field input,
+.add-category-field input {
     width: 100%;
     padding: 10px;
     margin-bottom: 12px;
@@ -696,7 +715,8 @@ nav ul li a:hover {
 }
 
 .add_user_field input:focus,
-.add-vendor-field input:focus {
+.add-vendor-field input:focus,
+.add-category-field input:focus {
     border-color: #2563eb;
     outline: none;
 }
@@ -739,7 +759,8 @@ nav ul li a:hover {
 }
 
 .add_user_button button,
-.add-vendor-button button {
+.add-vendor-button button,
+.add-category-button button {
     width: 100%;
     padding: 10px;
     background: #2563eb;
@@ -752,7 +773,8 @@ nav ul li a:hover {
 }
 
 .add_user_button button:hover,
-.add-vendor-button button:hover {
+.add-vendor-button button:hover,
+.add-category-button button:hover {
     background: #1e40af;
 }
 
@@ -769,7 +791,7 @@ nav ul li a:hover {
     color: red;
     font-size: 13px;
     display: block;
-    margin-top: 4px;
+    margin-bottom: 5px;
 }
 
 .input-error {

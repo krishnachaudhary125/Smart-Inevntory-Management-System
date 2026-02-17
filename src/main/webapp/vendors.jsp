@@ -47,7 +47,7 @@
                 <tr>
                     <th>S.No</th>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Vendor Name</th>
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Address</th>
@@ -57,7 +57,8 @@
                 </tr>
             </thead>
             <tbody>
-                <% Object obj=request.getAttribute("vendors"); List<Vendor> vendors = null;
+                <% Object obj=request.getAttribute("vendors");
+                    List<Vendor> vendors = null;
                     if (obj instanceof List) {
                         vendors = (List<Vendor>) obj;
                     }
@@ -80,7 +81,7 @@
                 </tr>
                 <% } 
                 }else{%>
-                <tr><td>No vendor found.</td></tr>
+                <tr><td colspan="7">No vendor found.</td></tr>
                 <% } %>
             </tbody>
         </table>
