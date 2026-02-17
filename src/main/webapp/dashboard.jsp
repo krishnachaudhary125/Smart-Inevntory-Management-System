@@ -43,6 +43,10 @@
                         %>
                         <jsp:include page="users.jsp" />
                         <%
+                    } else if(menu.equals("vendors")){
+                        %>
+                        <jsp:include page="vendors.jsp" />
+                        <%
                     }
                 %>
         </section>

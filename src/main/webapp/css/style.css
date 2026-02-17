@@ -464,7 +464,9 @@ nav ul li a:hover {
 }
 
 /* USERS */
-.user-container {
+.user-container,
+/* VENDORs */
+.vendor-container {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 6px;
@@ -474,14 +476,20 @@ nav ul li a:hover {
     margin: 0 auto;
 }
 
-.user-header {
+/* USERS */
+.user-header,
+/* VENDORS */
+.vendor-header {
     background-color: #f8f9fa;
     padding: 12px 16px;
     border-radius: 6px;
     margin-bottom: 20px;
 }
 
-.user-header ul {
+/* USERS */
+.user-header ul,
+/* VENDORS */
+.vendor-header ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -491,16 +499,25 @@ nav ul li a:hover {
     gap: 10px;
 }
 
-.user-header li {
+/* USERS */
+.user-header li,
+/* VENDORS */
+.vendor-header li {
     display: flex;
     align-items: center;
 }
 
-.user-header li:last-child {
+/* USERS */
+.user-header li:last-child,
+/* VENDORS */
+.vendor-header li:last-child {
     margin-left: auto;
 }
 
-.user-header button {
+/* USERS */
+.user-header button,
+/* VENDORS */
+.vendor-header button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -510,17 +527,26 @@ nav ul li a:hover {
     font-size: 14px;
 }
 
-.user-header button:hover {
+/* USERS */
+.user-header button:hover,
+/* VENDORS */
+.vendor-header button:hover {
     background-color: #0056b3;
 }
 
-.user-header .search {
+/* USERS */
+.user-header .search,
+/* VENDORS */
+.vendor-header .search {
     display: flex;
     align-items: center;
     gap: 6px;
 }
 
-.user-header .search input {
+/* USERS */
+.user-header .search-uesr input,
+/* VENDORS */
+.vendor-header .search-vendor input {
     padding: 7px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -528,11 +554,17 @@ nav ul li a:hover {
     width: 180px;
 }
 
-.user-header .search button {
+/* USERS */
+.user-header .search button,
+/* VENDORS */
+.vendor-header .search button {
     background-color: #28a745;
 }
 
-.user-header .search button:hover {
+/* USERS */
+.user-header .search button:hover,
+/* VENDORS */
+.vendor-header .search button:hover {
     background-color: #1e7e34;
 }
 
@@ -586,7 +618,8 @@ nav ul li a:hover {
     opacity: 0.85;
 }
 
-.add-user-modal {
+.add-user-modal,
+.add-vendor-modal {
     display: none;
     position: fixed;
     inset: 0;
@@ -596,7 +629,8 @@ nav ul li a:hover {
     justify-content: center;
 }
 
-.add-user-container {
+.add-user-container,
+.add-vendor-container {
     background: #ffffff;
     width: 360px;
     padding: 25px 22px;
@@ -631,13 +665,15 @@ nav ul li a:hover {
     color: #000;
 }
 
-.add-user-container h2 {
+.add-user-container h2,
+.add-vendor-container h2 {
     margin-bottom: 18px;
     text-align: center;
     color: #1f2937;
 }
 
-.add_user_field input {
+.add_user_field input,
+.add-vendor-field input {
     width: 100%;
     padding: 10px;
     margin-bottom: 12px;
@@ -646,7 +682,8 @@ nav ul li a:hover {
     font-size: 14px;
 }
 
-.add_user_field input:focus {
+.add_user_field input:focus,
+.add-vendor-field input:focus {
     border-color: #2563eb;
     outline: none;
 }
@@ -688,7 +725,8 @@ nav ul li a:hover {
     background: #eef2ff;
 }
 
-.add_user_button button {
+.add_user_button button,
+.add-vendor-button button {
     width: 100%;
     padding: 10px;
     background: #2563eb;
@@ -700,7 +738,8 @@ nav ul li a:hover {
     transition: background 0.3s;
 }
 
-.add_user_button button:hover {
+.add_user_button button:hover,
+.add-vendor-button button:hover {
     background: #1e40af;
 }
 

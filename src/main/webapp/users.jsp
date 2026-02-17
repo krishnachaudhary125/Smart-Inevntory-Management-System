@@ -7,7 +7,7 @@
                     <li><button id="add-user-btn">Add User</button></li>
                     <li><button>Role Filter</button></li>
                     <li>
-                        <div class="search">
+                        <div class="search-user">
                             <input type="text" placeholder="Search User">
                             <button>Search</button>
                         </div>
