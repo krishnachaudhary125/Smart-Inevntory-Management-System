@@ -10,7 +10,8 @@ import java.util.List;
 
 public class VendorDAO {
     private Connection conn;
-    public VendorDAO(Connection conn){
+
+    public VendorDAO(Connection conn) {
         this.conn = conn;
     }
 
@@ -26,7 +27,7 @@ public class VendorDAO {
 
     public List<Vendor> getAllVendors() throws SQLException {
         List<Vendor> list = new ArrayList<>();
-        String sql = "SELECT * FROM vendors WHERE is_active = TRUE ORDER BY created_at DESC";
+        String sql = "SELECT * FROM vendors WHERE is_active = TRUE";
         PreparedStatement ps = conn.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 

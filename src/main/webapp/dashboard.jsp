@@ -23,6 +23,15 @@
                 java.util.List<com.example.project.model.User> users = userDAO.getAllUsers();
                 request.setAttribute("users", users);
             }
+            else if ("vendors".equals(menu)) {
+                try (java.sql.Connection conn = com.example.project.util.DBConnection.getConnection()) {
+                    com.example.project.dao.VendorDAO vendorDAO = new com.example.project.dao.VendorDAO(conn);
+                    java.util.List<com.example.project.model.Vendor> vendors = vendorDAO.getAllVendors();
+                    request.setAttribute("vendors", vendors);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         %>
 
         <section class="dashboard-content">
@@ -30,10 +39,6 @@
                     if (menu == null || menu.equals("statistics")) {
                         %>
                         <jsp:include page="statistics.jsp" />
-                        <%
-                    } else if (menu.equals("admin")) {
-                        %>
-                        <jsp:include page="admin.jsp" />
                         <%
                     } else if (menu.equals("staff")) {
                         %>
