@@ -26,7 +26,7 @@ public class SignInServlet extends HttpServlet {
             session.setAttribute("uname", user.getUsername());
             session.setAttribute("role", user.getRole());
 
-            resp.sendRedirect("index.jsp?link=dashboard&menu=statistics");
+            resp.sendRedirect("index.jsp?link=dashboard&menu=statistics&sign_in=success");
         } else {
             req.setAttribute("error", "Invalid username or password");
             req.getRequestDispatcher("index.jsp?link=sign_in")

@@ -17,6 +17,6 @@ public class SignOutServlet extends HttpServlet {
         if(session != null){
             session.invalidate();
         }
-        resp.sendRedirect("index.jsp?link=sign_in");
+        resp.sendRedirect("index.jsp?link=sign_in&sign_out=success");
     }
 }

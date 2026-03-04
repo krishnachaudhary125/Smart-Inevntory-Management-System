@@ -97,3 +97,28 @@
     </main>
 
 </div>
+<div id="toast" class="toast"></div>
+<script>
+
+const toast = document.getElementById("toast");
+
+function showToast(msg,type){
+    toast.innerText = msg;
+    toast.className = "toast show " + type;
+
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },3000);
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    <% if("success".equals(request.getParameter("sign_in"))){ %>
+
+        showToast("Welcome <%= session.getAttribute("uname") %>! Sign In successful.","success");
+
+    <% } %>
+
+});
+
+</script>
