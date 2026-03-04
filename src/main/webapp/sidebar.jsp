@@ -18,6 +18,12 @@
                    class="<%= "category".equals(request.getParameter("menu")) ? "active" : "" %>">Category</a>
             </li>
             <li>
+                <a href="index.jsp?link=dashboard&menu=members"
+                   class="<%= "members".equals(request.getParameter("menu")) ? "active" : "" %>">
+                   Members
+                </a>
+            </li>
+            <li>
                 <a href="index.jsp?link=dashboard&menu=products"
                    class="<%= "products".equals(request.getParameter("menu")) ? "active" : "" %>">Products</a>
             </li>

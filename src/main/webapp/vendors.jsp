@@ -46,7 +46,6 @@
             <thead>
                 <tr>
                     <th>S.No</th>
-                    <th>ID</th>
                     <th>Vendor Name</th>
                     <th>Phone</th>
                     <th>Email</th>
@@ -70,7 +69,6 @@
                 %>
                 <tr>
                     <td><%= counter++ %></td>
-                    <td><%= v.getVendorId() %></td>
                     <td><%= v.getVendorName() %></td>
                     <td><%= v.getVendorPhone() %></td>
                     <td><%= v.getVendorEmail() %></td>

@@ -61,7 +61,22 @@
                  } catch (Exception e) {
                      e.printStackTrace();
                  }
-             }
+             }else if ("members".equals(menu)) {
+
+                  try (java.sql.Connection conn = com.example.project.util.DBConnection.getConnection()) {
+
+                      com.example.project.dao.MemberDAO memberDAO =
+                      new com.example.project.dao.MemberDAO(conn);
+
+                      java.util.List<com.example.project.model.Member> members =
+                      memberDAO.getAllMembers();
+
+                      request.setAttribute("members", members);
+
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
         %>
 
         <section class="dashboard-content">
@@ -90,7 +105,11 @@
                         %>
                         <jsp:include page="products.jsp" />
                         <%
-                    }
+                    } else if(menu.equals("members")){
+                      %>
+                      <jsp:include page="members.jsp" />
+                      <%
+                      }
                 %>
         </section>
 

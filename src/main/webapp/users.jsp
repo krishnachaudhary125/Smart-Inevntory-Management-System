@@ -103,7 +103,6 @@
                     <thead>
                         <tr>
                             <th>S.No</th>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -125,9 +124,6 @@
                                 <tr>
                                     <td>
                                         <%= counter++ %>
-                                    </td>
-                                    <td>
-                                        <%= u.getUserId() %>
                                     </td>
                                     <td>
                                         <%= u.getUsername() %>
