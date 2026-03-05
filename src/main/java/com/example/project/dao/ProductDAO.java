@@ -98,4 +98,28 @@ public class ProductDAO {
 
         return list;
     }
+
+    public List<Product> getAllProducts() throws SQLException {
+
+        List<Product> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM products WHERE isActive = TRUE";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+
+            Product p = new Product();
+
+            p.setProductId(rs.getInt("product_id"));
+            p.setProductName(rs.getString("product_name"));
+            p.setCategoryId(rs.getInt("category_id"));
+
+            list.add(p);
+        }
+
+        return list;
+    }
 }
