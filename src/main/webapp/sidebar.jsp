@@ -27,6 +27,10 @@
                 <a href="index.jsp?link=dashboard&menu=products"
                    class="<%= "products".equals(request.getParameter("menu")) ? "active" : "" %>">Products</a>
             </li>
+            <li>
+                <a href="index.jsp?link=dashboard&menu=stockout"
+                    class="<%= "stockout".equals(request.getParameter("menu")) ? "active" : "" %>">Stock Out</a>
+            </li>
         </ul>
     </div>
 </nav>

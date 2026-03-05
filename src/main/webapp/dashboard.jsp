@@ -61,7 +61,7 @@
                  } catch (Exception e) {
                      e.printStackTrace();
                  }
-             }else if ("members".equals(menu)) {
+            } else if ("members".equals(menu)) {
 
                   try (java.sql.Connection conn = com.example.project.util.DBConnection.getConnection()) {
 
@@ -76,7 +76,19 @@
                   } catch (Exception e) {
                       e.printStackTrace();
                   }
-              }
+            } else if ("stockout".equals(menu)) {
+
+                    try (java.sql.Connection conn = com.example.project.util.DBConnection.getConnection()) {
+
+                        com.example.project.dao.ProductDAO productDAO =
+                        new com.example.project.dao.ProductDAO(conn);
+
+                        request.setAttribute("products", productDAO.getAllProducts());
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
         %>
 
         <section class="dashboard-content">
@@ -109,7 +121,11 @@
                       %>
                       <jsp:include page="members.jsp" />
                       <%
-                      }
+                    } else if(menu.equals("stockout")){
+                      %>
+                      <jsp:include page="stockout.jsp"/>
+                      <%
+                    }
                 %>
         </section>
 
