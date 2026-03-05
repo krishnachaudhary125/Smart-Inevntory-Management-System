@@ -21,10 +21,21 @@ public class AddMemberServlet extends HttpServlet {
 
             MemberDAO dao = new MemberDAO(conn);
 
+            String phone = req.getParameter("phone");
+
+            if(dao.phoneExists(phone)){
+
+                resp.sendRedirect(
+                        req.getContextPath()+
+                                "/index.jsp?link=dashboard&menu=members&error=phoneExists");
+
+                return;
+            }
+
             Member m = new Member();
 
             m.setMemberName(req.getParameter("memberName"));
-            m.setPhone(req.getParameter("phone"));
+            m.setPhone(phone);
 
             dao.addMember(m);
 

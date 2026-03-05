@@ -52,4 +52,25 @@ public class MemberDAO {
 
         return list;
     }
+
+    public boolean phoneExists(String phone) {
+
+        boolean exists = false;
+
+        String sql = "SELECT 1 FROM members WHERE phone = ?";
+
+        try(PreparedStatement ps = conn.prepareStatement(sql)){
+
+            ps.setString(1, phone);
+
+            ResultSet rs = ps.executeQuery();
+
+            exists = rs.next();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return exists;
+    }
 }

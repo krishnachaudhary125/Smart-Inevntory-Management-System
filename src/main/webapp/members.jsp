@@ -146,15 +146,15 @@ toast.classList.remove("show");
 document.addEventListener("DOMContentLoaded",()=>{
 
 <% if("added".equals(request.getParameter("success"))){ %>
-
 showToast("Member added successfully!","success");
-
 <% } %>
 
 <% if("failed".equals(request.getParameter("error"))){ %>
-
 showToast("Failed to add member!","error");
+<% } %>
 
+<% if("phoneExists".equals(request.getParameter("error"))){ %>
+showToast("Phone number already registered!","error");
 <% } %>
 
 });
