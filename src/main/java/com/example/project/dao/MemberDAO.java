@@ -30,47 +30,48 @@ public class MemberDAO {
     public List<Member> getAllMembers() throws SQLException {
 
         List<Member> list = new ArrayList<>();
-
         String sql = "SELECT * FROM members";
-
         PreparedStatement ps = conn.prepareStatement(sql);
-
         ResultSet rs = ps.executeQuery();
-
         while(rs.next()){
-
             Member m = new Member();
-
             m.setMemberId(rs.getInt("member_id"));
             m.setMemberName(rs.getString("member_name"));
             m.setPhone(rs.getString("phone"));
             m.setPoints(rs.getInt("points"));
-
             list.add(m);
-
         }
-
         return list;
     }
 
     public boolean phoneExists(String phone) {
 
         boolean exists = false;
-
         String sql = "SELECT 1 FROM members WHERE phone = ?";
-
         try(PreparedStatement ps = conn.prepareStatement(sql)){
-
             ps.setString(1, phone);
-
             ResultSet rs = ps.executeQuery();
-
             exists = rs.next();
-
         }catch(Exception e){
             e.printStackTrace();
         }
-
         return exists;
+    }
+
+    public Member findByPhone(String phone) throws SQLException {
+
+        String sql = "SELECT * FROM members WHERE phone = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, phone);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            Member m = new Member();
+            m.setMemberId(rs.getInt("member_id"));
+            m.setMemberName(rs.getString("member_name"));
+            m.setPhone(rs.getString("phone"));
+            m.setPoints(rs.getInt("points"));
+            return m;
+        }
+        return null;
     }
 }

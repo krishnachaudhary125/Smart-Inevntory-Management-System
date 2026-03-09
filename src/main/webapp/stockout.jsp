@@ -156,4 +156,29 @@
 
     /* INITIAL CALCULATION */
     updateTotal();
+
+    /* MEMBER LOOKUP */
+    const memberPhone = document.getElementById("memberPhone");
+    const memberPoints = document.getElementById("memberPoints");
+
+    memberPhone.addEventListener("input", function(){
+
+        let phone = this.value;
+
+        if(phone.length < 3){
+            memberPoints.innerText = "0";
+            return;
+        }
+
+        fetch("<%=request.getContextPath()%>/searchMember?phone=" + phone)
+        .then(res => res.json())
+        .then(data => {
+
+            if(data.points !== undefined){
+                memberPoints.innerText = data.points;
+            }else{
+                memberPoints.innerText = "0";
+            }
+        });
+    });
 </script>
