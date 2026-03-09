@@ -122,4 +122,25 @@ public class ProductDAO {
 
         return list;
     }
+
+    public List<Product> searchProducts(String keyword) throws SQLException {
+
+        List<Product> list = new ArrayList<>();
+
+        String sql =
+                "SELECT product_id, product_name FROM products " +
+                        "WHERE product_name LIKE ? AND isActive = TRUE LIMIT 10";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "%" + keyword + "%");
+
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            Product p = new Product();
+            p.setProductId(rs.getInt("product_id"));
+            p.setProductName(rs.getString("product_name"));
+            list.add(p);
+        }
+        return list;
+    }
 }

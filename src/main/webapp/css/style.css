@@ -939,26 +939,50 @@ footer {
     border-radius: 6px;
 }
 
-/* PRODUCT SEARCH BAR */
-.search-product {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
+/* PRODUCT SEARCH */
+.product-search-container{
+    position: relative;
+    width: 350px;
+    margin: 20px auto;
 }
 
-.search-product input {
-    width: 320px;
+.product-search-input{
+    width: 100%;
     padding: 10px 12px;
     border-radius: 8px;
     border: 1px solid #cbd5e1;
     font-size: 14px;
-    transition: all 0.2s ease;
 }
 
-.search-product input:focus {
+.product-search-input:focus{
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+/* DROPDOWN */
+.product-suggestions{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 100;
+}
+
+/* suggestion item */
+.suggestion-item{
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover{
+    background: #f1f5f9;
 }
 
 /* CART TABLE */
