@@ -35,6 +35,21 @@ public class ProductDAO {
         return 0;
     }
 
+    public int getProductIdByName(String name) throws SQLException {
+
+        String sql = "SELECT product_id FROM products WHERE product_name = ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, name);
+
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            return rs.getInt("product_id");
+        }
+
+        return 0;
+    }
+
     public void addProductBatch(
             int productId,
             int batchDefId,
@@ -64,11 +79,13 @@ public class ProductDAO {
 
         String sql =
                 "SELECT " +
+                        "p.product_id, " +
                         "p.product_name, " +
                         "c.category_name, " +
                         "b.batch_number, " +
                         "v.vendor_name, " +
                         "pb.quantity, " +
+                        "SUM(pb.quantity) OVER (PARTITION BY p.product_id) AS total_quantity, " +
                         "pb.unit_price, " +
                         "pb.expiry_date " +
                         "FROM product_batches pb " +
@@ -92,6 +109,8 @@ public class ProductDAO {
             p.setQuantity(rs.getInt("quantity"));
             p.setPrice(rs.getDouble("unit_price"));
             p.setExpiryDate(rs.getDate("expiry_date"));
+            p.setProductId(rs.getInt("product_id"));
+            p.setTotalQuantity(rs.getInt("total_quantity"));
 
             list.add(p);
         }

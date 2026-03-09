@@ -12,6 +12,7 @@ public class ProductInventory {
     private int quantity;
     private double price;
     private Date expiryDate;
+    private int totalQuantity;
 
     public int getProductId() {
         return productId;
@@ -75,5 +76,13 @@ public class ProductInventory {
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 }

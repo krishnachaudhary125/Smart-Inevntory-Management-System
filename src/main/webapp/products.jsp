@@ -107,16 +107,15 @@
 
     <div class="product-table">
     <table>
+
     <thead>
     <tr>
     <th>S.No.</th>
     <th>Product</th>
     <th>Category</th>
-    <th>Batch</th>
     <th>Vendor</th>
-    <th>Quantity</th>
-    <th>Price</th>
-    <th>Expiry</th>
+    <th>Total Quantity</th>
+    <th>Action</th>
     </tr>
     </thead>
 
@@ -124,30 +123,55 @@
 
     <%
     if(inventory != null){
+
     int counter = 1;
-        for(ProductInventory p : inventory){
+    int lastProductId = -1;
+
+    for(ProductInventory p : inventory){
+
+        if(p.getProductId() != lastProductId){
     %>
 
     <tr>
     <td><%= counter++ %></td>
     <td><%= p.getProductName() %></td>
     <td><%= p.getCategoryName() %></td>
-    <td><%= p.getBatchNumber() %></td>
     <td><%= p.getVendorName() %></td>
-    <td><%= p.getQuantity() %></td>
-    <td><%= p.getPrice() %></td>
-    <td><%= p.getExpiryDate() %></td>
+    <td><%= p.getTotalQuantity() %></td>
+
+    <td>
+    <button class="view-batch-btn" onclick="toggleBatch('<%= p.getProductId() %>')">
+    View All Batch
+    </button>
+    </td>
+
     </tr>
 
     <%
+            lastProductId = p.getProductId();
         }
+    %>
+
+    <tr class="batch-row batch-<%= p.getProductId() %>" style="display:none;">
+    <td></td>
+    <td colspan="5">
+
+    Batch: <%= p.getBatchNumber() %>&emsp;|&emsp;
+    Qty: <%= p.getQuantity() %>&emsp;|&emsp;
+    Price: <%= p.getPrice() %>&emsp;|&emsp;
+    Expiry: <%= p.getExpiryDate() %>
+
+    </td>
+    </tr>
+
+    <%
+    }
     }
     %>
 
     </tbody>
 
     </table>
-
     </div>
 </div>
 <div id="toast" class="toast"></div>
@@ -197,4 +221,20 @@
          <% } %>
 
      });
+
+     function toggleBatch(productId){
+
+         let rows = document.querySelectorAll(".batch-" + productId);
+
+         rows.forEach(row => {
+
+             if(row.style.display === "none"){
+                 row.style.display = "table-row";
+             }else{
+                 row.style.display = "none";
+             }
+
+         });
+
+     }
 </script>

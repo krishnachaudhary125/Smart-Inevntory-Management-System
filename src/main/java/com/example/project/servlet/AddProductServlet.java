@@ -44,14 +44,15 @@ public class AddProductServlet extends HttpServlet {
 
             }
 
-            Product product = new Product();
-
-            product.setProductName(name);
-            product.setCategoryId(categoryId);
-
             ProductDAO productDAO = new ProductDAO(conn);
+            int productId = productDAO.getProductIdByName(name);
 
-            int productId = productDAO.addProduct(product);
+            if(productId == 0){
+                Product product = new Product();
+                product.setProductName(name);
+                product.setCategoryId(categoryId);
+                productId = productDAO.addProduct(product);
+            }
 
             productDAO.addProductBatch(
                     productId,
