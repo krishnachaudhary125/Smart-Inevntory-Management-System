@@ -90,11 +90,9 @@
                 <input type="number" class="qty-input" value="1" min="1">
             </td>
 
-            <td>
-                <input type="number" class="price-input" value="100" min="0">
-            </td>
+            <td class="price-value">0</td>
 
-            <td class="row-total">100</td>
+            <td class="row-total"></td>
 
             <td>
                 <button class="remove-btn">🗑</button>
@@ -112,7 +110,7 @@
 
         <div id="pointSection" class="point-section">
             Use Points:
-            <input type="number" class="use-point" value="0" min="0">
+            <input type="number" class="use-point" value="" min="0">
         </div>
 
         <p>Discount: Rs <span class="discount">0</span></p>
@@ -246,36 +244,37 @@ searchInput.addEventListener("input", function(){
 
 
 /* ADD PRODUCT TO CART */
-
 function addProductToCart(product){
 
     const tbody = document.querySelector(".cart-body");
-
     const template = document.getElementById("cartRowTemplate");
 
     const newRow = template.cloneNode(true);
 
     newRow.removeAttribute("id");
-
     newRow.style.display = "";
 
     newRow.querySelector(".product-name").innerText = product.name;
 
+    newRow.querySelector(".batch-select").innerHTML =
+        `<option>${product.batch}</option>`;
+
+    let price = parseFloat(product.price) || 0;
+
+    newRow.querySelector(".price-value").innerText = price;
+    newRow.querySelector(".row-total").innerText = price;
+
     const removeBtn = newRow.querySelector(".remove-btn");
 
     removeBtn.addEventListener("click", function(){
-
         newRow.remove();
         updateTotal();
-
     });
 
     tbody.appendChild(newRow);
 
     updateTotal();
-
 }
-
 
 
 /* PRICE CALCULATION */
@@ -285,7 +284,6 @@ document.addEventListener("input", function(e){
     if(
 
         e.target.classList.contains("qty-input") ||
-        e.target.classList.contains("price-input") ||
         e.target.classList.contains("use-point")
 
     ){
@@ -295,8 +293,7 @@ document.addEventListener("input", function(e){
         if(row){
 
             let qty = parseFloat(row.querySelector(".qty-input").value) || 0;
-            let price = parseFloat(row.querySelector(".price-input").value) || 0;
-
+            let price = parseFloat(row.querySelector(".price-value").innerText) || 0;
             row.querySelector(".row-total").innerText = qty * price;
 
         }

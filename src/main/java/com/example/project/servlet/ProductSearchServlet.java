@@ -1,7 +1,7 @@
 package com.example.project.servlet;
 
 import com.example.project.dao.ProductDAO;
-import com.example.project.model.Product;
+import com.example.project.model.ProductInventory;
 import com.example.project.util.DBConnection;
 
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +14,8 @@ import java.util.List;
 @WebServlet("/searchProduct")
 public class ProductSearchServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
 
         String keyword = req.getParameter("keyword");
 
@@ -24,21 +25,22 @@ public class ProductSearchServlet extends HttpServlet {
 
             ProductDAO dao = new ProductDAO(conn);
 
-            List<Product> products = dao.searchProducts(keyword);
+            List<ProductInventory> products = dao.searchProducts(keyword);
 
             StringBuilder json = new StringBuilder("[");
-            for(int i=0;i<products.size();i++){
+            boolean first = true;
 
-                Product p = products.get(i);
+            for(ProductInventory p : products){
+
+                if(!first) json.append(",");
+                first = false;
 
                 json.append("{")
                         .append("\"id\":").append(p.getProductId()).append(",")
-                        .append("\"name\":\"").append(p.getProductName()).append("\"")
+                        .append("\"name\":\"").append(p.getProductName()).append("\",")
+                        .append("\"batch\":\"").append(p.getBatchNumber()).append("\",")
+                        .append("\"price\":").append(p.getPrice())
                         .append("}");
-
-                if(i < products.size()-1){
-                    json.append(",");
-                }
             }
 
             json.append("]");

@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class ProductInventory {
 
+    private int productId;
     private String productName;
     private String categoryName;
     private String batchNumber;
@@ -11,6 +12,14 @@ public class ProductInventory {
     private int quantity;
     private double price;
     private Date expiryDate;
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;

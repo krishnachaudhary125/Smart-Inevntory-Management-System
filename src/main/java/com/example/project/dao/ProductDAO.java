@@ -123,24 +123,34 @@ public class ProductDAO {
         return list;
     }
 
-    public List<Product> searchProducts(String keyword) throws SQLException {
+    public List<ProductInventory> searchProducts(String keyword) throws SQLException {
 
-        List<Product> list = new ArrayList<>();
+        List<ProductInventory> list = new ArrayList<>();
 
         String sql =
-                "SELECT product_id, product_name FROM products " +
-                        "WHERE product_name LIKE ? AND isActive = TRUE LIMIT 10";
+                "SELECT p.product_id, p.product_name, b.batch_number, pb.unit_price " +
+                        "FROM product_batches pb " +
+                        "JOIN products p ON pb.product_id = p.product_id " +
+                        "JOIN batch_definitions b ON pb.batch_def_id = b.batch_def_id " +
+                        "WHERE p.product_name LIKE ? AND pb.is_active = TRUE";
+
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, "%" + keyword + "%");
 
         ResultSet rs = ps.executeQuery();
 
         while(rs.next()){
-            Product p = new Product();
+
+            ProductInventory p = new ProductInventory();
+
             p.setProductId(rs.getInt("product_id"));
             p.setProductName(rs.getString("product_name"));
+            p.setBatchNumber(rs.getString("batch_number"));
+            p.setPrice(rs.getDouble("unit_price"));
+
             list.add(p);
         }
+
         return list;
     }
 }
