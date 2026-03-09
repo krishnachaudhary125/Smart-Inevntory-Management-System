@@ -5,18 +5,18 @@
     <h2>Stock Out</h2>
     <div class="customer-section">
         <div class="customer-header">
-            <label>Customer Type</label>
-            <select id="customerType">
+            <label class="customer-label">Customer Type</label>
+            <select id="customerType" class="customer-select">
                 <option value="guest" selected>Non-Member</option>
                 <option value="member">Member</option>
             </select>
-        </div>
 
-        <div id="memberSearch" class="member-search">
-            <input type="text"
-            id="memberPhone"
-            placeholder="Enter member phone number">
-            <p>Available Points: <span id="memberPoints">0</span></p>
+            <div id="memberSearch" class="member-search">
+                <input type="text" id="memberPhone" class="member-input" placeholder="Enter phone number">
+                <span class="member-points">
+                Points: <span id="memberPoints">0</span>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
         <input type="text" id="productSearch" placeholder="Search product name..." autocomplete="off">
     </div>
 
-    <table id="cartTable">
+    <table class="cart-table">
         <thead>
             <tr>
                 <th>Product</th>
@@ -35,128 +35,125 @@
                 <th>Remove</th>
             </tr>
         </thead>
-        <tbody id="cartBody">
+
+        <tbody class="cart-body">
+            <%
+                List<Product> productList = (List<Product>)request.getAttribute("products");
+                if(productList != null){
+                    for(Product p : productList){
+            %>
+
+            <tr class="cart-row">
+                <td class="product-name">
+                    <%= p.getProductName() %>
+                </td>
+                <td>
+                    <select class="batch-select">
+                        <option>B101</option>
+                        <option>B102</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="qty-input" value="1" min="1">
+                </td>
+                <td>
+                    <input type="number" class="price-input" value="100" min="0">
+                </td>
+                <td class="row-total">100</td>
+                <td>
+                    <button class="remove-btn" onclick="removeRow(this)">X</button>
+                </td>
+            </tr>
+            <%
+                    }
+                }
+            %>
         </tbody>
+
     </table>
 
     <div class="cart-summary">
-        <p>Subtotal: Rs <span id="subtotal">0</span></p>
-        <div id="pointSection" style="display:none">
-            Use Points: <input type="number" id="usePoint">
+        <p>Subtotal: Rs <span class="subtotal">0</span></p>
+
+        <div id="pointSection" class="point-section">
+            Use Points: <input type="number" class="use-point" value="0" min="0">
         </div>
-        <p>Discount: Rs <span id="discount">0</span></p>
-        <h3>Final Total: Rs <span id="finalTotal">0</span></h3>
-        <button id="completeSale">Complete Sale</button>
+
+        <p>Discount: Rs <span class="discount">0</span></p>
+
+        <h3>Final Total: Rs <span class="final-total">0</span></h3>
+
+        <button class="complete-sale-btn">Complete Sale</button>
     </div>
 </div>
 
 <script>
-    // Customer Type
+    /* CUSTOMER TYPE */
     const customerType = document.getElementById("customerType");
     const memberSearch = document.getElementById("memberSearch");
     const pointsSection = document.getElementById("pointSection");
 
-    customerType.addEventListener("change", function(){
-
-        if(this.value === "member"){
-            memberSearch.style.display="flex";
-            pointsSection.style.display="block";
+    function toggleMemberFields(){
+        if(customerType.value === "member"){
+            memberSearch.style.display = "flex";
+            pointsSection.style.display = "block";
         }else{
-            memberSearch.style.display="none";
-            pointsSection.style.display="none";
-        }
-    });
+            memberSearch.style.display = "none";
+            pointsSection.style.display = "none";
 
-    // Product List
-    const products = [
-        <%
-        List<Product> products=(List<Product>)request.getAttribute("products");
-        if(products!=null){
-            for(Product p:products){
-        %>
-            {
-                id:<%=p.getProductId()%>,
-                name:"<%=p.getProductName()%>",
-                price:100
-            },
-        <%
+        }
+    }
+    customerType.addEventListener("change", toggleMemberFields);
+    toggleMemberFields();
+
+    /* PRICE CALCULATION */
+    document.addEventListener("input", function(e){
+        if(
+            e.target.classList.contains("qty-input") ||
+            e.target.classList.contains("price-input") ||
+            e.target.classList.contains("use-point")
+        ){
+            let row = e.target.closest(".cart-row");
+            if(row){
+                let qty = parseFloat(
+                    row.querySelector(".qty-input").value
+                ) || 0;
+
+                let price = parseFloat(
+                    row.querySelector(".price-input").value
+                ) || 0;
+
+                let total = qty * price;
+                row.querySelector(".row-total").innerText = total;
             }
-        }
-        %>
-    ];
-
-    // Add Product to Cart
-    document.getElementById("productSearch").addEventListener("change",function(){
-        let name=this.value;
-        let product=products.find(p=>p.name===name);
-        if(product){
-            addRow(product);
-        }
-    });
-
-    // Cart row
-    function addRow(product){
-        let row = `
-        <tr>
-            <td>${product.name}</td>
-            <td>
-                <select class="batch">
-                    <option>B101</option>
-                    <option>B102</option>
-                </select>
-            </td>
-            <td>
-                <input type="number" class="qty" value="1">
-            </td>
-            <td>
-                <input type="number" class="price" value="${product.price}">
-            </td>
-            <td class="rowTotal">${product.price}</td>
-            <td>
-                <button onclick="removeRow(this)">X</button>
-            </td>
-        </tr>
-        `;
-
-        document.getElementById("cartBody")
-        .insertAdjacentHTML("beforeend",row);
-
         updateTotal();
-    }
-
-    // Price Calculation
-    document.addEventListener("input",function(e){
-        if(e.target.classList.contains("qty") || e.target.classList.contains("price")){
-            let row=e.target.closest("tr");
-            let qty=row.querySelector(".qty").value;
-            let price=row.querySelector(".price").value;
-            let total=qty*price;
-
-            row.querySelector(".rowTotal").innerText=total;
-            updateTotal();
         }
     });
 
-    // Update total
+    /* UPDATE TOTAL */
     function updateTotal(){
-        let subtotal=0;
-        document.querySelectorAll(".rowTotal").forEach(el=>{
-        subtotal += parseFloat(el.innerText);
-    });
+        let subtotal = 0;
+        document.querySelectorAll(".row-total").forEach(el=>{
+            subtotal += parseFloat(el.innerText) || 0;
+        });
 
-    document.getElementById("subtotal").innerText=subtotal;
+        document.querySelector(".subtotal").innerText = subtotal;
 
-    let points = document.getElementById("usePoints").value || 0;
-    let discount=(points/100)*50;
+        let points = parseFloat(
+            document.querySelector(".use-point").value
+        ) || 0;
 
-    document.getElementById("discount").innerText=discount;
-    document.getElementById("finalTotal")
-        .innerText=subtotal-discount;
+        let discount = (points / 100) * 50;
+        document.querySelector(".discount").innerText = discount;
+        document.querySelector(".final-total").innerText = subtotal - discount;
     }
 
-    // remove product
+    /* REMOVE PRODUCT */
     function removeRow(btn){
-        btn.closest("tr").remove();
+        btn.closest(".cart-row").remove();
         updateTotal();
     }
+
+    /* INITIAL CALCULATION */
+    updateTotal();
 </script>
