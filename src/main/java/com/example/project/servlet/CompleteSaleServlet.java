@@ -34,7 +34,11 @@ public class CompleteSaleServlet extends HttpServlet {
 
         String customerType = data.get("customerType").getAsString();
 
-        String phone = data.has("phone") ? data.get("phone").getAsString() : null;
+        String phone = data.has("phone") ? data.get("phone").getAsString() : "Guest";
+
+        if(phone == null || phone.trim().isEmpty()){
+            phone = "Guest";
+        }
 
         try(Connection conn = DBConnection.getConnection()){
 

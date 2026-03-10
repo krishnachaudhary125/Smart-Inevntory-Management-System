@@ -88,7 +88,22 @@
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-            }
+            } else if ("sales".equals(menu)) {
+
+                  try (java.sql.Connection conn = com.example.project.util.DBConnection.getConnection()) {
+
+                      com.example.project.dao.SaleDAO saleDAO =
+                      new com.example.project.dao.SaleDAO(conn);
+
+                      java.util.List<com.example.project.model.Sale> sales =
+                      saleDAO.getAllSales();
+
+                      request.setAttribute("sales", sales);
+
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
         %>
 
         <section class="dashboard-content">
@@ -124,6 +139,10 @@
                     } else if(menu.equals("stockout")){
                       %>
                       <jsp:include page="stockout.jsp"/>
+                      <%
+                    } else if(menu.equals("sales")){
+                      %>
+                      <jsp:include page="sales.jsp" />
                       <%
                     }
                 %>

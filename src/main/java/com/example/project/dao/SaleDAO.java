@@ -1,6 +1,10 @@
 package com.example.project.dao;
 
+import com.example.project.model.Sale;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaleDAO {
 
@@ -72,5 +76,54 @@ public class SaleDAO {
         ps.setString(3, phone);
 
         ps.executeUpdate();
+    }
+
+    public List<Sale> getAllSales() throws SQLException {
+
+        List<Sale> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM sales ORDER BY sale_id DESC";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+
+            Sale s = new Sale();
+
+            s.setSaleId(rs.getInt("sale_id"));
+            s.setMemberPhone(rs.getString("member_phone"));
+            s.setTotalAmount(rs.getDouble("total_amount"));
+            s.setUsedPoints(rs.getInt("used_points"));
+            s.setSaleDate(rs.getTimestamp("sale_date"));
+
+            list.add(s);
+        }
+
+        return list;
+    }
+
+    public List<String> getProductsBySale(int saleId) throws SQLException {
+
+        List<String> products = new ArrayList<>();
+
+        String sql =
+                "SELECT p.product_name " +
+                        "FROM sale_items si " +
+                        "JOIN product_batches pb ON si.batch_id = pb.batch_id " +
+                        "JOIN products p ON pb.product_id = p.product_id " +
+                        "WHERE si.sale_id = ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, saleId);
+
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            products.add(rs.getString("product_name"));
+        }
+
+        return products;
     }
 }
