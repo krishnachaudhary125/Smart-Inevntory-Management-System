@@ -147,10 +147,9 @@ public class ProductDAO {
         List<ProductInventory> list = new ArrayList<>();
 
         String sql =
-                "SELECT p.product_id, p.product_name, b.batch_number, pb.unit_price " +
-                        "FROM product_batches pb " +
-                        "JOIN products p ON pb.product_id = p.product_id " +
-                        "JOIN batch_definitions b ON pb.batch_def_id = b.batch_def_id " +
+                "SELECT DISTINCT p.product_id, p.product_name " +
+                        "FROM products p " +
+                        "JOIN product_batches pb ON pb.product_id = p.product_id " +
                         "WHERE p.product_name LIKE ? AND pb.is_active = TRUE";
 
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -164,8 +163,6 @@ public class ProductDAO {
 
             p.setProductId(rs.getInt("product_id"));
             p.setProductName(rs.getString("product_name"));
-            p.setBatchNumber(rs.getString("batch_number"));
-            p.setPrice(rs.getDouble("unit_price"));
 
             list.add(p);
         }

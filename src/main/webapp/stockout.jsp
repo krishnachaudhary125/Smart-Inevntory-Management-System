@@ -81,21 +81,19 @@
 
             <td>
                 <select class="batch-select">
-                    <option>B101</option>
-                    <option>B102</option>
                 </select>
             </td>
 
             <td>
-                <input type="number" class="qty-input" value="1" min="1">
+                <input type="number" class="qty-input" value="0" min="1">
             </td>
 
             <td class="price-value">0</td>
 
-            <td class="row-total"></td>
+            <td class="row-total">0</td>
 
             <td>
-                <button class="remove-btn">🗑</button>
+                <button class="remove-btn">Delete</button>
             </td>
 
         </tr>
@@ -110,7 +108,7 @@
 
         <div id="pointSection" class="point-section">
             Use Points:
-            <input type="number" class="use-point" value="" min="0">
+            <input type="number" class="use-point" value="0" min="0">
         </div>
 
         <p>Discount: Rs <span class="discount">0</span></p>
@@ -148,10 +146,13 @@ function toggleMemberFields(){
 
 }
 
-customerType.addEventListener("change", toggleMemberFields);
-toggleMemberFields();
+document.addEventListener("DOMContentLoaded", function(){
 
+    toggleMemberFields();
 
+    customerType.addEventListener("change", toggleMemberFields);
+
+});
 
 /* MEMBER LOOKUP */
 
@@ -256,19 +257,72 @@ function addProductToCart(product){
 
     newRow.querySelector(".product-name").innerText = product.name;
 
-    newRow.querySelector(".batch-select").innerHTML =
-        `<option>${product.batch}</option>`;
+    const batchSelect = newRow.querySelector(".batch-select");
 
-    let price = parseFloat(product.price) || 0;
+    fetch("<%=request.getContextPath()%>/getBatches?productId=" + product.id)
 
-    newRow.querySelector(".price-value").innerText = price;
-    newRow.querySelector(".row-total").innerText = price;
+    .then(res => res.json())
+
+    .then(batches => {
+
+        batchSelect.innerHTML = "";
+
+        let totalStock = 0;
+
+        batches.forEach(b => {
+
+            totalStock += b.qty;
+
+            const option = document.createElement("option");
+
+            option.value = b.batchId;
+            option.textContent = b.batch + " (" + b.qty + ")";
+
+            option.dataset.price = b.price;
+            option.dataset.qty = b.qty;
+
+            batchSelect.appendChild(option);
+
+        });
+
+        /* set first batch price */
+        if(batches.length > 0){
+
+            const first = batches[0];
+
+            const qty = parseInt(newRow.querySelector(".qty-input").value) || 0;
+
+            newRow.querySelector(".price-value").innerText = first.price;
+
+            newRow.querySelector(".row-total").innerText = qty * first.price;
+
+        }
+    });
+
+    batchSelect.addEventListener("change", function(){
+
+        const selected = this.options[this.selectedIndex];
+
+        const price = parseFloat(selected.dataset.price);
+
+        const row = this.closest(".cart-row");
+
+        const qty = parseInt(row.querySelector(".qty-input").value) || 0;
+
+        row.querySelector(".price-value").innerText = price;
+
+        row.querySelector(".row-total").innerText = qty * price;
+
+        updateTotal();
+    });
 
     const removeBtn = newRow.querySelector(".remove-btn");
 
     removeBtn.addEventListener("click", function(){
+
         newRow.remove();
         updateTotal();
+
     });
 
     tbody.appendChild(newRow);
@@ -276,36 +330,99 @@ function addProductToCart(product){
     updateTotal();
 }
 
-
 /* PRICE CALCULATION */
-
 document.addEventListener("input", function(e){
 
-    if(
+/* POINTS INPUT */
+if(e.target.classList.contains("use-point")){
+updateTotal();
+return;
+}
 
-        e.target.classList.contains("qty-input") ||
-        e.target.classList.contains("use-point")
+/* QUANTITY INPUT */
+if(!e.target.classList.contains("qty-input")) return;
 
-    ){
+const row = e.target.closest(".cart-row");
 
-        let row = e.target.closest(".cart-row");
+const qty = parseInt(e.target.value) || 0;
 
-        if(row){
+const batchSelect = row.querySelector(".batch-select");
+const selectedBatch = batchSelect.options[batchSelect.selectedIndex];
 
-            let qty = parseFloat(row.querySelector(".qty-input").value) || 0;
-            let price = parseFloat(row.querySelector(".price-value").innerText) || 0;
-            row.querySelector(".row-total").innerText = qty * price;
+const price = parseFloat(selectedBatch.dataset.price);
+const batchStock = parseInt(selectedBatch.dataset.qty);
 
-        }
+const productName = row.querySelector(".product-name").innerText;
+const batchId = selectedBatch.value;
 
-        updateTotal();
+/* calculate used stock */
+let usedStock = 0;
 
-    }
+document.querySelectorAll(".cart-row").forEach(r=>{
+
+if(r === row) return;
+
+const p = r.querySelector(".product-name").innerText;
+const b = r.querySelector(".batch-select").value;
+
+if(p === productName && b === batchId){
+
+usedStock += parseInt(r.querySelector(".qty-input").value) || 0;
+
+}
 
 });
 
+const remainingStock = batchStock - usedStock;
 
+if(qty > remainingStock){
 
+alert("Only " + remainingStock + " items available");
+
+e.target.value = remainingStock;
+
+}
+
+const finalQty = parseInt(e.target.value) || 0;
+
+row.querySelector(".row-total").innerText = finalQty * price;
+
+updateTotal();
+
+});
+
+function createBatchRow(productName, batch, qty){
+
+    const tbody = document.querySelector(".cart-body");
+    const template = document.getElementById("cartRowTemplate");
+
+    const row = template.cloneNode(true);
+
+    row.removeAttribute("id");
+    row.style.display = "";
+
+    row.querySelector(".product-name").innerText = productName;
+
+    row.querySelector(".batch-select").innerHTML =
+        `<option>${batch.batch}</option>`;
+
+    row.querySelector(".qty-input").value = qty;
+
+    row.querySelector(".price-value").innerText = batch.price;
+
+    row.querySelector(".row-total").innerText = qty * batch.price;
+
+    row.dataset.batches = JSON.stringify([batch]);
+
+    const removeBtn = row.querySelector(".remove-btn");
+
+    removeBtn.onclick = () => {
+        row.remove();
+        updateTotal();
+    };
+
+    tbody.appendChild(row);
+}
 /* UPDATE TOTAL */
 
 function updateTotal(){
@@ -330,10 +447,95 @@ function updateTotal(){
 
 }
 
-
-
 /* INITIAL CALCULATION */
 
 updateTotal();
 
+    /* SENDING CART DATA */
+    document.querySelector(".complete-sale-btn").addEventListener("click", function(){
+
+        const rows = document.querySelectorAll(".cart-row");
+
+        if(rows.length === 0){
+            alert("Cart is empty");
+            return;
+        }
+
+        const items = [];
+
+       rows.forEach(row => {
+
+           const qty = parseInt(row.querySelector(".qty-input").value) || 0;
+
+           if(qty <= 0) return;
+
+           const batchSelect = row.querySelector(".batch-select");
+
+           const batchId = batchSelect.value;
+
+           const price = parseFloat(row.querySelector(".price-value").innerText) || 0;
+
+           const product = row.querySelector(".product-name").innerText;
+
+           items.push({
+               productName: product,
+               batchId: batchId,
+               quantity: qty,
+               price: price
+           });
+
+       });
+
+        const finalTotal = parseFloat(document.querySelector(".final-total").innerText) || 0;
+
+        const usedPoints = parseInt(document.querySelector(".use-point").value) || 0;
+
+        const memberPoints = parseInt(document.getElementById("memberPoints").innerText) || 0;
+
+        const customerType = document.getElementById("customerType").value;
+
+        const phone = document.getElementById("memberPhone").value;
+
+        /* SECURITY CHECK */
+        if(customerType === "member" && usedPoints > memberPoints){
+            alert("You cannot use more points than available.");
+            return;
+        }
+
+        fetch("<%=request.getContextPath()%>/completeSale",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                items:items,
+                total:finalTotal,
+                usedPoints:usedPoints,
+                customerType:customerType,
+                phone:phone
+            })
+
+        })
+        .then(res=>{
+            if(!res.ok){
+                throw new Error("Server error");
+            }
+            return res.json();
+        })
+        .then(data=>{
+
+            alert("Sale completed!");
+
+            location.reload();
+
+        })
+        .catch(err=>{
+              console.error(err);
+              alert("Sale failed");
+        });
+
+    });
 </script>

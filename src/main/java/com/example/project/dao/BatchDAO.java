@@ -52,4 +52,35 @@ public class BatchDAO {
 
         return 0;
     }
+
+    public List<Batch> getBatchesByProduct(int productId) throws SQLException {
+
+        List<Batch> list = new ArrayList<>();
+
+        String sql =
+                "SELECT pb.batch_id, b.batch_number, pb.unit_price, pb.quantity, pb.expiry_date " +
+                        "FROM product_batches pb " +
+                        "JOIN batch_definitions b ON pb.batch_def_id = b.batch_def_id " +
+                        "WHERE pb.product_id = ? AND pb.is_active = TRUE " +
+                        "ORDER BY pb.expiry_date ASC";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, productId);
+
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+
+            Batch batch = new Batch();
+
+            batch.setBatchId(rs.getInt("batch_id"));
+            batch.setBatchNumber(rs.getString("batch_number"));
+            batch.setPrice(rs.getDouble("unit_price"));
+            batch.setQuantity(rs.getInt("quantity"));
+
+            list.add(batch);
+        }
+
+        return list;
+    }
 }
