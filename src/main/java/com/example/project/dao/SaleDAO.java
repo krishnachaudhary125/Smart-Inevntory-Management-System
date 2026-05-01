@@ -4,7 +4,9 @@ import com.example.project.model.Sale;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SaleDAO {
 
@@ -125,5 +127,37 @@ public class SaleDAO {
         }
 
         return products;
+    }
+
+    public List<List<String>> getTransactions() throws SQLException{
+
+        List<List<String>> list = new ArrayList<>();
+
+        String sql =
+                "SELECT s.sale_id,p.product_name " +
+                        "FROM sales s " +
+                        "JOIN sale_items si ON s.sale_id = si.sale_id " +
+                        "JOIN product_batches pb ON si.batch_id = pb.batch_id " +
+                        "JOIN products p ON pb.product_id = p.product_id " +
+                        "ORDER BY s.sale_id";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        Map<Integer,List<String>> map = new HashMap<>();
+
+        while(rs.next()){
+
+            int saleId = rs.getInt("sale_id");
+            String product = rs.getString("product_name");
+
+            map.computeIfAbsent(saleId,k->new ArrayList<>())
+                    .add(product);
+        }
+
+        list.addAll(map.values());
+
+        return list;
     }
 }

@@ -51,6 +51,7 @@
         </div>
     <% } %>
 </header>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function togglePopup(popupId) {
     const popup = document.getElementById(popupId);

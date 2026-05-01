@@ -169,4 +169,47 @@ public class ProductDAO {
 
         return list;
     }
+
+    public List<Integer> getProductSalesHistory(int productId) throws SQLException{
+
+        List<Integer> list = new ArrayList<>();
+
+        String sql =
+                "SELECT SUM(si.quantity) as qty " +
+                        "FROM sale_items si " +
+                        "JOIN product_batches pb ON si.batch_id = pb.batch_id " +
+                        "WHERE pb.product_id = ? " +
+                        "GROUP BY DATE(si.sale_id)";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, productId);
+
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            list.add(rs.getInt("qty"));
+        }
+
+        return list;
+    }
+
+    public int getCurrentStock(int productId) throws Exception {
+
+        int stock = 0;
+
+        String sql = "SELECT SUM(quantity) AS total FROM product_batches WHERE product_id = ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, productId);
+
+        ResultSet rs = ps.executeQuery();
+
+        if(rs.next()){
+            stock = rs.getInt("total");
+        }
+
+        return stock;
+    }
 }

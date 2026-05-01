@@ -485,7 +485,10 @@ updateTotal();
            });
 
        });
-
+        if(items.length === 0){
+            alert("No valid items in cart (all quantities are 0).");
+            return;
+        }
         const finalTotal = parseFloat(document.querySelector(".final-total").innerText) || 0;
 
         const usedPoints = parseInt(document.querySelector(".use-point").value) || 0;

@@ -37,6 +37,12 @@
                    Sales
                 </a>
             </li>
+            <li>
+            <a href="<%=request.getContextPath()%>/forecast"
+            class="<%= "forecast".equals(request.getParameter("menu")) ? "active" : "" %>">
+            Forecast
+            </a>
+            </li>
         </ul>
     </div>
 </nav>

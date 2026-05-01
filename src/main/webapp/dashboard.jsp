@@ -144,6 +144,10 @@
                       %>
                       <jsp:include page="sales.jsp" />
                       <%
+                    } else if(menu.equals("forecast")){
+                      %>
+                      <jsp:include page="forecast.jsp"/>
+                      <%
                     }
                 %>
         </section>
